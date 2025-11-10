@@ -1,0 +1,5 @@
+export function notify(msg){
+  if(Notification.permission==='granted'){
+    new Notification(msg);
+  } else Notification.requestPermission();
+}

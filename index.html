@@ -1,21 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KageNikki Ultimate</title>
-<link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KageNikki</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark">
-<header>
-  <h1>📖 KageNikki Ultimate</h1>
-  <div>
-    <button id="toggleTheme">Cambiar tema</button>
-    <button id="profileBtn">Perfil</button>
+
+<div class="container">
+  <!-- Topbar -->
+  <div class="topbar">
+    <h1>🌸 KageNikki</h1>
+    <div>
+      <button id="toggleTheme" class="ghost">Cambiar tema</button>
+      <select id="langSelect">
+        <option value="es">🇪🇸 Español</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
+    </div>
   </div>
-</header>
-<main id="app"></main>
-<script type="module" src="main.js"></script>
+
+  <!-- Secciones dinámicas -->
+  <div id="mainContent">
+    <!-- Aquí se cargarán los módulos: Perfil, Diario, Chat, Tienda, RPG, etc. -->
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Hecho por — KageNikki Ultimate
+  </footer>
+</div>
+
+<!-- JS -->
+<script type="module">
+  import { changeLanguage } from './js/lang.js';
+  import { renderProfile } from './js/profile.js';
+  import { renderDiary } from './js/diary.js';
+  import { renderChat } from './js/chat-sensei.js';
+  // Importa otros módulos según sea necesario
+  // import { renderStore } from './js/store.js';
+  // import { renderRPG } from './js/rpg.js';
+
+  const main = document.getElementById('mainContent');
+  const toggleTheme = document.getElementById('toggleTheme');
+  const langSelect = document.getElementById('langSelect');
+
+  // ================================
+  // Cambiar tema
+  toggleTheme.onclick = () => {
+    document.body.classList.toggle('dark');
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  };
+  (function initTheme() {
+    const th = localStorage.getItem('theme') || 'dark';
+    document.body.classList.add(th);
+  })();
+
+  // ================================
+  // Cambiar idioma
+  langSelect.onchange = (e) => {
+    changeLanguage(e.target.value);
+  };
+  (function initLang() {
+    const lang = localStorage.getItem('lang') || 'es';
+    langSelect.value = lang;
+    changeLanguage(lang);
+  })();
+
+  // ================================
+  // Renderizar módulos principales
+  function loadModule(name){
+    main.innerHTML = '';
+    switch(name){
+      case 'profile': renderProfile(main); break;
+      case 'diary': renderDiary(main); break;
+      case 'chat': renderChat(main); break;
+      // case 'store': renderStore(main); break;
+      // case 'rpg': renderRPG(main); break;
+      default: main.innerHTML='<h2>Bienvenido a KageNikki Ultimate 🌸</h2>';
+    }
+  }
+
+  // ================================
+  // Menu rápido (puedes expandir con íconos y botones)
+  const menuDiv = document.createElement('div');
+  menuDiv.className = 'actions';
+  ['profile','diary','chat'].forEach(mod=>{
+    const btn = document.createElement('button');
+    btn.textContent = mod.toUpperCase();
+    btn.onclick = ()=>loadModule(mod);
+    menuDiv.appendChild(btn);
+  });
+  main.appendChild(menuDiv);
+
+  // Cargar inicio
+  loadModule();
+</script>
 </body>
 </html>
