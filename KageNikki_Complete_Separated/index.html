@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KageNikki — Diario de las Sombras (影日記)</title>
+  <meta name="description" content="KageNikki: diario en japonés con Firebase, offline, edición, estadísticas y PWA." />
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles/app.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="wrap">
+    <header class="top card">
+      <div>
+        <h1>🕶️ KageNikki — Diario de las Sombras (影日記)</h1>
+        <p class="muted">Escribe en japonés. Guardado local + sincronizado en Firebase. Modo offline disponible (PWA).</p>
+      </div>
+      <div id="authBox" class="authBox"></div>
+    </header>
+
+    <section id="editorCard" class="card">
+      <div class="row">
+        <div style="flex:1">
+          <label>Fecha</label>
+          <input id="dateInput" type="date" />
+        </div>
+        <div style="flex:1">
+          <label>Estado de ánimo</label>
+          <input id="moodInput" placeholder="うれしい / かなしい / げんき" />
+        </div>
+      </div>
+
+      <label style="margin-top:10px">Entrada (escribe en japonés)</label>
+      <textarea id="textInput" placeholder="今日、学校で..."></textarea>
+
+      <div class="actions">
+        <button id="saveBtn">Guardar entrada</button>
+        <button id="newBtn" class="ghost">Nueva</button>
+        <button id="copyBtn" class="ghost">Copiar</button>
+        <button id="shareBtn" class="ghost">Compartir</button>
+        <button id="exportBtn" class="ghost">Exportar JSON</button>
+        <button id="exportPdfBtn" class="ghost">Exportar PDF</button>
+      </div>
+      <p id="charCount" class="muted"></p>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <div style="flex:1">
+          <label>Buscar</label>
+          <input id="searchInput" placeholder="Buscar por palabra, fecha o estado" />
+        </div>
+        <div style="flex:0 0 160px">
+          <label>Orden</label>
+          <select id="orderSelect"><option value="desc">Más recientes</option><option value="asc">Más antiguas</option></select>
+        </div>
+      </div>
+
+      <div class="metaRow">
+        <div class="muted">Entradas guardadas: <span id="countAll">0</span></div>
+        <div class="muted">Racha: <span id="streak">0</span></div>
+      </div>
+
+      <div id="entries" class="entries"></div>
+    </section>
+
+    <section class="card">
+      <canvas id="chart" width="800" height="160"></canvas>
+    </section>
+
+    <footer class="muted card small">Hecho con ♥ — KageNikki. Usa F12 para ver errores. Sigue las instrucciones en README para deploy.</footer>
+  </main>
+
+  <!-- Libraries -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
