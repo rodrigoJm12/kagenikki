@@ -1,0 +1,9 @@
+:root {
+  --bg-light:#f2f4f8; --text-light:#111; --card-light:#fff; --accent:#7dd3fc; --muted:#9ca3af;
+  --bg-dark:#0f1724; --text-dark:#e6eef8; --card-dark:#0b1220;
+}
+body { margin:0; font-family:Arial, sans-serif; transition:background 0.3s,color 0.3s; }
+body.light { background:var(--bg-light); color:var(--text-light); }
+body.dark { background:var(--bg-dark); color:var(--text-dark); }
+header { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:var(--accent); color:#06202b; }
+button { padding:8px 12px; border-radius:8px; cursor:pointer; border:none; margin-left:5px; }
