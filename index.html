@@ -3,16 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KageNikki</title>
+  <title>KageNikki Ultimate</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg-light:#f2f4f8; --text-light:#111; --card-light:#fff; --accent:#7dd3fc; --muted:#9ca3af;
+      --bg-dark:#0f1724; --text-dark:#e6eef8; --card-dark:#0b1220; --glass:rgba(255,255,255,0.03)
+    }
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;transition:background 0.3s,color 0.3s;}
+    body.light{background:var(--bg-light);color:var(--text-light)}
+    body.dark{background:linear-gradient(180deg,#071025 0%, #081226 60%);color:var(--text-dark)}
+    .container{max-width:900px;margin:0 auto;padding:16px;display:none;}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+    .actions button{flex:1 1 auto;padding:10px;border-radius:8px;border:none;background-color:var(--accent);color:#06202b;font-weight:bold;cursor:pointer;transition:0.2s;}
+    .actions button:hover{background-color:#38bdf8;}
+    #mainContent>div{background:var(--card-light);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+    body.dark #mainContent>div{background:var(--card-dark);box-shadow:0 4px 12px rgba(0,0,0,0.5);}
+    footer{margin-top:16px;font-size:12px;color:var(--muted);text-align:center;}
+    #loginContainer{max-width:400px;margin:50px auto;padding:20px;border-radius:12px;background:var(--card-light);box-shadow:0 6px 18px rgba(0,0,0,0.1);text-align:center;}
+    #loginContainer input{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);}
+    #loginContainer button{width:100%;padding:10px;border-radius:8px;border:none;background-color:var(--accent);color:#06202b;font-weight:bold;cursor:pointer;}
+  </style>
 </head>
 <body class="dark">
+
+<!-- Login -->
+<div id="loginContainer">
+  <h2>🔐 Iniciar sesión</h2>
+  <input type="text" id="username" placeholder="Usuario">
+  <button id="loginBtn">Entrar</button>
+</div>
 
 <div class="container">
   <!-- Topbar -->
   <div class="topbar">
-    <h1>🌸 KageNikki</h1>
-    <div>
+    <h1>🌸 KageNikki Ultimate</h1>
+    <div style="display:flex;gap:8px;align-items:center">
       <button id="toggleTheme" class="ghost">Cambiar tema</button>
       <select id="langSelect">
         <option value="es">🇪🇸 Español</option>
@@ -22,30 +49,69 @@
     </div>
   </div>
 
-  <!-- Secciones dinámicas -->
-  <div id="mainContent">
-    <!-- Aquí se cargarán los módulos: Perfil, Diario, Chat, Tienda, RPG, etc. -->
+  <!-- Menu de módulos -->
+  <div class="actions" id="menuModules">
+    <button data-module="profile">👤 Perfil</button>
+    <button data-module="diary">📝 Diario</button>
+    <button data-module="chat">💬 Chat</button>
+    <button data-module="store">🛒 Tienda</button>
+    <button data-module="rpg">🗡️ RPG</button>
+    <button data-module="achievements">🏆 Logros</button>
+    <button data-module="missions">🎯 Misiones</button>
+    <button data-module="dreams">💭 Sueños</button>
+    <button data-module="story">📖 Story Mode</button>
+    <button data-module="stickers">🖼️ Stickers</button>
+    <button data-module="zen">🧘 Zen Mode</button>
   </div>
 
-  <!-- Footer -->
+  <!-- Contenedor principal donde se cargan los módulos -->
+  <div id="mainContent"></div>
+
   <footer>
-    Hecho por — KageNikki Ultimate
+    Hecho con ♥ por Rodrigo — KageNikki Ultimate
   </footer>
 </div>
 
-<!-- JS -->
 <script type="module">
   import { changeLanguage } from './js/lang.js';
   import { renderProfile } from './js/profile.js';
   import { renderDiary } from './js/diary.js';
   import { renderChat } from './js/chat-sensei.js';
-  // Importa otros módulos según sea necesario
-  // import { renderStore } from './js/store.js';
-  // import { renderRPG } from './js/rpg.js';
+  import { renderStore } from './js/store.js';
+  import { renderRPG } from './js/rpg.js';
+  import { renderAchievements } from './js/achievements.js';
+  import { renderMissions } from './js/missions.js';
+  import { renderDreams } from './js/dreams.js';
+  import { renderStory } from './js/story-mode.js';
+  import { renderStickers } from './js/stickers.js';
+  import { renderZen } from './js/zen-mode.js';
 
   const main = document.getElementById('mainContent');
+  const menuButtons = document.querySelectorAll('#menuModules button');
   const toggleTheme = document.getElementById('toggleTheme');
   const langSelect = document.getElementById('langSelect');
+
+  const loginContainer = document.getElementById('loginContainer');
+  const loginBtn = document.getElementById('loginBtn');
+  const usernameInput = document.getElementById('username');
+
+  // ================================
+  // Login
+  function showApp(){
+    loginContainer.style.display='none';
+    document.querySelector('.container').style.display='block';
+  }
+
+  const savedUser = localStorage.getItem('kageUser');
+  if(savedUser){ showApp(); }
+
+  loginBtn.onclick = ()=>{
+    const user = usernameInput.value.trim();
+    if(!user) return alert('Ingrese un usuario');
+    localStorage.setItem('kageUser', user);
+    showApp();
+    alert('Bienvenido '+user);
+  };
 
   // ================================
   // Cambiar tema
@@ -61,9 +127,7 @@
 
   // ================================
   // Cambiar idioma
-  langSelect.onchange = (e) => {
-    changeLanguage(e.target.value);
-  };
+  langSelect.onchange = (e) => { changeLanguage(e.target.value); };
   (function initLang() {
     const lang = localStorage.getItem('lang') || 'es';
     langSelect.value = lang;
@@ -71,33 +135,32 @@
   })();
 
   // ================================
-  // Renderizar módulos principales
+  // Cargar módulos
   function loadModule(name){
     main.innerHTML = '';
     switch(name){
       case 'profile': renderProfile(main); break;
       case 'diary': renderDiary(main); break;
       case 'chat': renderChat(main); break;
-      // case 'store': renderStore(main); break;
-      // case 'rpg': renderRPG(main); break;
+      case 'store': renderStore(main); break;
+      case 'rpg': renderRPG(main); break;
+      case 'achievements': renderAchievements(main); break;
+      case 'missions': renderMissions(main); break;
+      case 'dreams': renderDreams(main); break;
+      case 'story': renderStory(main); break;
+      case 'stickers': renderStickers(main); break;
+      case 'zen': renderZen(main); break;
       default: main.innerHTML='<h2>Bienvenido a KageNikki Ultimate 🌸</h2>';
     }
   }
 
-  // ================================
-  // Menu rápido (puedes expandir con íconos y botones)
-  const menuDiv = document.createElement('div');
-  menuDiv.className = 'actions';
-  ['profile','diary','chat'].forEach(mod=>{
-    const btn = document.createElement('button');
-    btn.textContent = mod.toUpperCase();
-    btn.onclick = ()=>loadModule(mod);
-    menuDiv.appendChild(btn);
+  menuButtons.forEach(btn=>{
+    btn.onclick=()=>loadModule(btn.dataset.module);
   });
-  main.appendChild(menuDiv);
 
-  // Cargar inicio
-  loadModule();
+  // Módulo por defecto
+  loadModule('diary');
 </script>
+
 </body>
 </html>
