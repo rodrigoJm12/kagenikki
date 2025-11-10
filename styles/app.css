@@ -1,0 +1,27 @@
+
+:root{
+  --bg:#071025; --card:#0b1220; --accent:#7dd3fc; --muted:#9ca3af; --glass:rgba(255,255,255,0.03);
+  --max-width:1100px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Serif JP', serif;background:linear-gradient(180deg,#071025,#081226);color:#e6eef8;padding:20px;min-height:100vh}
+.wrap{max-width:var(--max-width);margin:0 auto}
+.card{background:var(--card);padding:14px;border-radius:12px;margin:12px 0;box-shadow:0 6px 18px rgba(3,7,18,0.6);transition:transform .18s ease}
+.card:hover{transform:translateY(-4px)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.authBox{min-width:220px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+textarea{min-height:140px;resize:vertical}
+.row{display:flex;gap:12px}
+.row> *{flex:1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button{background:var(--accent);border:none;padding:8px 12px;border-radius:8px;color:#042;cursor:pointer}
+button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+.entries{margin-top:12px}
+.entry{padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);margin-bottom:10px}
+.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.small{font-size:12px;color:var(--muted)}
+.muted{color:var(--muted)}
+.metaRow{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+@media (max-width:700px){.row{flex-direction:column}}
