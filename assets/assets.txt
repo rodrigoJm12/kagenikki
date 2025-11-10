@@ -1,0 +1,10 @@
+assets
+├── backgrounds
+│   ├── fondo1.jpg
+│   └── fondo2.jpg
+├── sounds
+│   ├── ambient.mp3
+│   └── notification.mp3
+└── icons
+    ├── sticker1.png
+    └── sticker2.png
